@@ -43,6 +43,7 @@
 
 // export default apiFetch;
 const API = import.meta.env.VITE_API_URL;
+console.log("APII ",API)
 const BASE_URL = API;
 
 const apiFetch = async (endpoint, options = {}) => {
