@@ -2,6 +2,8 @@ from django.contrib.auth import authenticate, login as django_login
 from django.contrib.auth import logout as django_logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.permissions import AllowAny
@@ -17,6 +19,10 @@ from App.forms import MealForm, CategoryForm
 from App.models import Category, Meal, Table, MealTable, AcceptedOrder, YourOrder, Payment
 
 
+
+@ensure_csrf_cookie
+def csrf(request):
+    return JsonResponse({"detail": "CSRF cookie set"})
 @api_view(['GET'])
 def get_categories(request):
     categories = list(Category.objects.values())

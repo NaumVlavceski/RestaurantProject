@@ -21,11 +21,12 @@ from django.conf import settings
 from App.views import get_categories, get_meals, get_meals_by_category, get_tables, GroupedOrders, add_meal, \
     OrdersByTable, remove_meal, add_order, remove_order, Your_order, set_payment, get_payment, add_meal_to_menu, \
     add_category_to_menu, register, login_view, check_auth, logout_view, users, remove_user, edit_meal_to_menu, \
-    remove_meal_from_menu, edit_category_to_menu, remove_category_from_menu
+    remove_meal_from_menu, edit_category_to_menu, remove_category_from_menu, csrf
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('categories/', get_categories),
+    path("csrf/", csrf),
     path("meals/<int:category_id>/", get_meals_by_category),
     path('meals/', get_meals),
     path("tables/", get_tables),
