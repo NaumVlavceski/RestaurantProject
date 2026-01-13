@@ -37,7 +37,7 @@ def csrf(request):
 @api_view(['GET'])
 def get_categories(request):
     categories = list(Category.objects.values())
-    return Response(categories)
+    return Response(categories.order_by('id'))
 
 
 @api_view(['GET'])
@@ -47,7 +47,7 @@ def get_meals(request):
         meals = Meal.objects.filter(titleMK__istartswith=query.capitalize()).values()
     else:
         meals = list(Meal.objects.values())
-    return Response(meals)
+    return Response(meals.order_by('id'))
 
 
 @api_view(['GET'])
@@ -60,9 +60,9 @@ def get_meals_by_category(request, category_id):
 def get_tables(request):
     query = request.GET.get('q', '')
     if query:
-        tables = Table.objects.annotate(id_str=Cast('id', CharField())).filter(id_str__istartswith=query).values()
+        tables = Table.objects.annotate(id_str=Cast('id', CharField())).filter(id_str__istartswith=query).values().order_by('id')
     else:
-        tables = Table.objects.all().values()
+        tables = Table.objects.all().values().order_by('id')
     return Response(list(tables))
 
 
