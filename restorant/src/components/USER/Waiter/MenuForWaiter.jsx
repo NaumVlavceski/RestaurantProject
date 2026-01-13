@@ -456,7 +456,7 @@ const MenuForWaiter = ({
                                                 <div
                                                     className="w-24 h-24 md:w-50 md:h-50 rounded-xl overflow-hidden border-2   border-gray-600">
                                                     <img
-                                                        src={food.photo}
+                                                        src={"https://res.cloudinary.com/dqscvd9as/image/upload/v1768314305/"+food.photo}
                                                         alt={food.title}
                                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                                                     />

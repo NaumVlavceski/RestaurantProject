@@ -24,7 +24,7 @@ from App.views import get_categories, get_meals, get_meals_by_category, get_tabl
     remove_meal_from_menu, edit_category_to_menu, remove_category_from_menu, csrf
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('owner/', admin.site.urls),
     path('categories/', get_categories),
     path("csrf/", csrf),
     path("meals/<int:category_id>/", get_meals_by_category),
