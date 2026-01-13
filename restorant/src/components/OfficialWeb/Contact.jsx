@@ -15,7 +15,7 @@ const Contact = ({t}) => {
         {
             icon: Mail,
             title: t.email,
-            details: 'info@bellacucina.com',
+            details: 'info@b.com',
         },
     ];
     // const {t,toggleLanguage} = useLanguage()

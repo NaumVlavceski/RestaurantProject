@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://restorantp.netlify.app/sitemap.xml
