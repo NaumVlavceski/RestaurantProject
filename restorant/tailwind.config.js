@@ -4,10 +4,10 @@ export default {
     theme: {
         extend: {
             backgroundImage: {
-                'menu-bg': "url('public/menu-bg-small.jpg')",
-                'order-bg': "url('public/order-bg-small.jpg')",
-            }
-        }
+                'menu-bg': "url('/menu-bg-small.jpg')",
+                'order-bg': "url('/order-bg-small.jpg')",
+            },
+        },
     },
     plugins: [],
-};
+}

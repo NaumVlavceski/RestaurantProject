@@ -1,8 +1,9 @@
 import useOrders from "../../../hooks/useOrders.js";
 import finishOrder from "../../../hooks/finishOrder.js";
-import { useEffect, useState, useRef } from "react";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import {useEffect, useState, useRef} from "react";
+import {ArrowLeftIcon} from "@heroicons/react/24/outline";
 import {useNavigate} from "react-router";
+import apiFetch from "../../../api/api.js";
 
 function Orders() {
     const orders = useOrders();
@@ -11,6 +12,7 @@ function Orders() {
     const [changedMeals, setChangedMeals] = useState({});
     const prevOrdersRef = useRef([]);
     const navigate = useNavigate()
+    const [loadingTables, setLoadingTables] = useState({});
     useEffect(() => {
         document.title = "Orders"
         // ... (постоечки useEffect код останува ист) ...
@@ -38,8 +40,7 @@ function Orders() {
                     if (!prevMeal) {
                         tableChangedMeals[meal.titleMK] = true;
                         newHighlights[order.table] = true;
-                    }
-                    else if (prevMeal.count !== meal.count) {
+                    } else if (prevMeal.count !== meal.count) {
                         tableChangedMeals[meal.titleMK] = true;
                         newHighlights[order.table] = true;
                     }
@@ -64,12 +65,12 @@ function Orders() {
         });
 
         if (Object.keys(newHighlights).length > 0) {
-            setHighlightedTables(prev => ({ ...prev, ...newHighlights }));
+            setHighlightedTables(prev => ({...prev, ...newHighlights}));
         }
 
         if (Object.keys(newChangedMeals).length > 0) {
             setChangedMeals(prev => {
-                const updated = { ...prev };
+                const updated = {...prev};
                 Object.keys(newChangedMeals).forEach(table => {
                     updated[table] = {
                         ...updated[table],
@@ -84,13 +85,18 @@ function Orders() {
     }, [orders]);
 
     const handleProvereno = (tableId) => {
+
+        apiFetch(`/checked_order/${tableId}/`, {
+            method: "POST",
+            credentials: false
+        })
         setHighlightedTables(prev => ({
             ...prev,
             [tableId]: false
         }));
 
         setChangedMeals(prev => {
-            const newState = { ...prev };
+            const newState = {...prev};
             delete newState[tableId];
             return newState;
         });
@@ -109,21 +115,38 @@ function Orders() {
     };
 
     const handleFinish = async (tableId) => {
-        await finishOrder(tableId);
-        setHighlightedTables(prev => ({
+        setLoadingTables(prev => ({
             ...prev,
-            [tableId]: false
+            [tableId]: true
         }));
-        setCheckedTables(prev => ({
-            ...prev,
-            [tableId]: false
-        }));
+        try {
+            await finishOrder(tableId);
 
-        setChangedMeals(prev => {
-            const newState = { ...prev };
-            delete newState[tableId];
-            return newState;
-        });
+            setHighlightedTables(prev => ({
+                ...prev,
+                [tableId]: false
+            }));
+
+            setCheckedTables(prev => ({
+                ...prev,
+                [tableId]: false
+            }));
+
+            setChangedMeals(prev => {
+                const newState = {...prev};
+                delete newState[tableId];
+                return newState;
+            });
+
+        } catch (err) {
+            console.error("Finish order failed", err);
+            alert("Could not finish order");
+        } finally {
+            setTimeout(() => setLoadingTables(prev => ({
+                ...prev,
+                [tableId]: false
+            })),1000)// 🟢 секогаш се гаси, дури и ако API падне
+        }
     };
 
     return (
@@ -132,14 +155,15 @@ function Orders() {
 
                 {/* Sticky Header */}
                 <div className="sticky top-0 z-10 -mx-3 sm:mx-0 mb-4 sm:mb-6">
-                    <div className="bg-white/80 backdrop-blur border border-gray-200 rounded-2xl px-3 sm:px-5 py-3 shadow-sm">
+                    <div
+                        className="bg-white/80 backdrop-blur border border-gray-200 rounded-2xl px-3 sm:px-5 py-3 shadow-sm">
                         <div className="flex items-center justify-between gap-3">
                             <button
                                 type="button"
                                 onClick={() => navigate("/user/")}
                                 className="shrink-0 p-2 hover:bg-gray-100 rounded-lg transition"
                             >
-                                <ArrowLeftIcon className="h-5 w-5 text-gray-600" />
+                                <ArrowLeftIcon className="h-5 w-5 text-gray-600"/>
                             </button>
 
                             <div className="min-w-0">
@@ -175,11 +199,14 @@ function Orders() {
                 {orders.length === 0 ? (
                     <div className="bg-white rounded-2xl shadow-lg p-10 sm:p-12 text-center border border-gray-100">
                         <div className="max-w-md mx-auto">
-                            <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                            <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
+                                      d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                             </svg>
                             <h3 className="text-xl font-bold text-gray-900 mb-2">Нема активни нарачки</h3>
-                            <p className="text-gray-600 mb-6">Моментално нема активни нарачки. Сите маси се слободни.</p>
+                            <p className="text-gray-600 mb-6">Моментално нема активни нарачки. Сите маси се
+                                слободни.</p>
                         </div>
                     </div>
                 ) : (
@@ -189,6 +216,7 @@ function Orders() {
                             const isHighlighted = highlightedTables[order.table];
                             const isChecked = checkedTables[order.table];
                             const tableChangedMeals = changedMeals[order.table] || {};
+                            const isLoaded = loadingTables[order.table]
 
                             return (
                                 <div
@@ -240,12 +268,14 @@ function Orders() {
 
                                             <div className="flex flex-col items-end gap-1 shrink-0">
                                                 {isHighlighted && (
-                                                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800 animate-pulse">
+                                                    <span
+                                                        className="px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800 animate-pulse">
                         НОВА ПРОМЕНА!
                       </span>
                                                 )}
                                                 {isChecked && (
-                                                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800">
+                                                    <span
+                                                        className="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800">
                         ✓ ПРОВЕРЕНО
                       </span>
                                                 )}
@@ -280,7 +310,8 @@ function Orders() {
                                                             )}
                                                         </div>
 
-                                                        <span className={`font-bold text-lg ml-3 ${isMealChanged ? "text-red-600 animate-pulse" : "text-gray-900"}`}>
+                                                        <span
+                                                            className={`font-bold text-lg ml-3 ${isMealChanged ? "text-red-600 animate-pulse" : "text-gray-900"}`}>
                           {meal.count}x
                         </span>
                                                     </div>
@@ -289,7 +320,8 @@ function Orders() {
                                         </div>
 
                                         <div className="space-y-3">
-                                            <div className="flex justify-between items-center pt-3 border-t border-gray-200">
+                                            <div
+                                                className="flex justify-between items-center pt-3 border-t border-gray-200">
                                                 <span className="text-gray-600 font-medium">Вкупно:</span>
                                                 <span className="text-xl sm:text-2xl font-bold text-gray-900">
                       {order.total_price} ден.
@@ -308,17 +340,21 @@ function Orders() {
                                                 >
                                                     {order.payment_method === "cash" ? (
                                                         <>
-                                                            <svg className="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                                                      d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                                                            <svg className="w-5 h-5 text-green-600 mr-2" fill="none"
+                                                                 stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round"
+                                                                      strokeWidth="2"
+                                                                      d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
                                                             </svg>
                                                             <span className="text-green-700 font-medium">Плаќање во готово</span>
                                                         </>
                                                     ) : (
                                                         <>
-                                                            <svg className="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                                                      d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                                            <svg className="w-5 h-5 text-blue-600 mr-2" fill="none"
+                                                                 stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round"
+                                                                      strokeWidth="2"
+                                                                      d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
                                                             </svg>
                                                             <span className="text-blue-700 font-medium">Плаќање со картичка</span>
                                                         </>
@@ -342,26 +378,30 @@ function Orders() {
                                                 }
                     `}
                                             >
-                                                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor"
+                                                     viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                                          d="M5 13l4 4L19 7"/>
                                                 </svg>
                                                 ПРОМЕНИТЕ СЕ ПРОВЕРЕНИ
                                             </button>
-
                                             <button
                                                 onClick={() => handleFinish(order.table)}
-                                                className="
-                      w-full py-3 px-4 rounded-lg font-semibold
-                      bg-gradient-to-r from-blue-600 to-blue-700
-                      text-white hover:from-blue-700 hover:to-blue-800
-                      transition flex items-center justify-center
-                      hover:shadow-lg
-                    "
+                                                className={`
+                                                  w-full py-3 px-4 rounded-lg font-semibold
+                                                  text-white 
+                                                  transition flex items-center justify-center
+                                                  hover:shadow-lg
+                                                  ${isLoaded ? "bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800" :
+                                                    "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"}
+                                                `}
                                             >
-                                                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor"
+                                                     viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                                          d="M5 13l4 4L19 7"/>
                                                 </svg>
-                                                Заврши нарачка
+                                                {isLoaded ? "Завршување нарачка..." : "Заврши нарачка"}
                                             </button>
                                         </div>
                                     </div>

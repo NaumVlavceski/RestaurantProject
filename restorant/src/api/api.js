@@ -66,7 +66,7 @@ const apiFetch = async (endpoint, options = {}) => {
         body,
         credentials
     });
-    console.log("Res",res)
+    // console.log("Res",res)
     if (!expectResponse){
         return null
     }
@@ -83,7 +83,6 @@ const apiFetch = async (endpoint, options = {}) => {
                 : (data?.errors || data?.detail || `API error: ${res.status}`);
         throw new Error(msg);
     }
-    console.log(data)
     return data;
 };
 

@@ -44,7 +44,9 @@
     "card": "Card",
     "cash_desc": "Pay in cash",
     "card_desc": "Contactless card payment",
-    "select_payment": "Select a payment method to finalize your visit."
+    "select_payment": "Select a payment method to finalize your visit.",
+    "checked": "Checked",
+    "NotChecked": "Not yet checked"
   },
   "mk" : {
     "restorant_name": "Ресторан Име",
@@ -91,6 +93,8 @@
     "card": "Картичка",
     "cash_desc": "Платете во готово",
     "card_desc": "Бесконтактно плаќање со картичка",
-    "select_payment": "Изберете начин на плаќање за да ја финализирате вашата посета"
+    "select_payment": "Изберете начин на плаќање за да ја финализирате вашата посета",
+    "checked": "Проверено",
+    "NotChecked": "Сеуште не проверено"
   }
 }

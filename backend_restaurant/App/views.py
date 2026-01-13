@@ -195,6 +195,10 @@ def remove_meal(request, table_id, meal_id):
 @api_view(['POST'])
 def add_order(request, table_id):
     items = MealTable.objects.filter(Table_id=table_id)
+    Yorder =YourOrder.objects.filter(Table_id=table_id)
+    for o in Yorder:
+        o.checked = False
+        o.save()
     for item in items:
         AcceptedOrder.objects.create(
             Table=item.Table,
@@ -213,17 +217,16 @@ def remove_order(request, table_id):
     AcceptedOrder.objects.filter(Table_id=table_id).delete()
     YourOrder.objects.filter(Table_id=table_id).delete()
     Payment.objects.filter(table_id=table_id).delete()
+    MealTable.objects.filter(Table_id=table_id).delete()
     return Response({"status": "ok"})
 
 
-class Your_order(APIView):
+class YourOrderView(APIView):
     def get(self, request, table_id):
         data = YourOrder.objects.filter(Table_id=table_id).select_related('Meal')
         grouped = {}
-
         for item in data:
             meal = item.Meal
-
             if meal.id not in grouped:
                 grouped[meal.id] = {
                     "id": meal.id,
@@ -236,14 +239,17 @@ class Your_order(APIView):
                 }
 
             grouped[meal.id]["count"] += 1
-            grouped[meal.id]["subtotal"] = grouped[meal.id]["count"] * meal.priceMK
-
+            grouped[meal.id]["subtotalMK"] = grouped[meal.id]["count"] * meal.priceMK
+            grouped[meal.id]["subtotal"] = grouped[meal.id]["count"] * meal.price
+        total_priceMK = sum(meal_info["subtotalMK"] for meal_info in grouped.values())
         total_price = sum(meal_info["subtotal"] for meal_info in grouped.values())
-
+        checked = data.filter(checked=True).exists()
         resp = {
             "table": table_id,
             "meals": list(grouped.values()),
-            "total_price": total_price
+            "total_price": total_price,
+            "total_priceMK": total_priceMK,
+            "checked": checked
         }
 
         return Response(resp)
@@ -480,3 +486,14 @@ def remove_user(request, user_id):
         user.delete()
         return Response({"success": True})
     return Response({"success": False})
+
+@api_view(["POST"])
+def checked_order(request, table_id):
+    orders = YourOrder.objects.filter(Table_id=table_id)
+
+    if not orders.exists():
+        return Response({"success": False, "message": "No orders found"}, status=404)
+
+    orders.update(checked=True)   # 🔥 ова е најважното
+
+    return Response({"success": True})

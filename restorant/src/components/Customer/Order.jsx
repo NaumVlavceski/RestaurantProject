@@ -60,7 +60,18 @@ function Order() {
                 }
             });
     }, [tableId]);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const noMeals = (orderByTable?.meals?.length ?? 0) === 0;
+            const notChecked = !yourOrder?.checked;
+            console.log(noMeals,notChecked)
+            if (notChecked && noMeals) {
+                window.location.reload();
+            }
+        }, 30000);
 
+        return () => clearInterval(interval);
+    }, [yourOrder?.checked, orderByTable?.meals?.length]);
     return (
         <section className="relative py-6 w-full min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
             <button
@@ -68,7 +79,7 @@ function Order() {
                 className="cursor-pointer absolute top-2 left-2 z-50
                 text-white rounded-2xl shadow-2xl transition-colors"
             >
-                <img src={`/public/flag_${l === 'mk' ? 'en' : 'mk'}.png`} className='w-10 h-10'/>
+                <img src={`/flag_${l === 'mk' ? 'en' : 'mk'}.png`} className='w-10 h-10'/>
             </button>
             {/* Декоративни елементи */}
             <div
@@ -100,9 +111,10 @@ function Order() {
                                 width={100}
                                 height={100}
                                 fill="#00ca00"
-                                style={{ opacity: 1 }}
+                                style={{opacity: 1}}
                             >
-                                <path d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zm-7.933 13.481l-3.774-3.774l1.414-1.414l2.226 2.226l4.299-5.159l1.537 1.28l-5.702 6.841z" />
+                                <path
+                                    d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zm-7.933 13.481l-3.774-3.774l1.414-1.414l2.226 2.226l4.299-5.159l1.537 1.28l-5.702 6.841z"/>
                             </svg>
                         </div>
                         <h2 className="text-white text-3xl font-bold mb-4">{t.wait}</h2>
@@ -115,24 +127,26 @@ function Order() {
             {/* Главна содржина */}
             <div className="relative px-4 mb-24 max-w-6xl mx-auto">
                 {/* Карти за нарачка */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+                <div
+                    className={`grid grid-cols-1  gap-8 mb-10 ${(orderByTable.meals && orderByTable.meals.length > 0) && (yourOrder && yourOrder.meals && yourOrder.meals.length > 0) ? "lg:grid-cols-2" : "lg:grid-cols-1"}`}>
                     {/* Активна нарачка */}
-                    <div
-                        className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 p-6">
-                        <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-white text-2xl font-bold flex items-center">
-                                <svg className="w-6 h-6 mr-2 text-yellow-400" fill="none" stroke="currentColor"
-                                     viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                                </svg>
-                                {t.current_order}
-                            </h2>
-                        </div>
+                    {orderByTable?.meals && orderByTable?.meals?.length > 0 ? (
+                        <div
+                            className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 p-6">
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-white text-2xl font-bold flex items-center">
+                                    <svg className="w-6 h-6 mr-2 text-yellow-400" fill="none" stroke="currentColor"
+                                         viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                    </svg>
+                                    {t.current_order}
+                                </h2>
+                            </div>
 
-                        {orderByTable.meals && orderByTable.meals.length > 0 ? (
+
                             <div className="space-y-4">
-                                {orderByTable.meals.map(item => (
+                                {orderByTable?.meals?.map(item => (
                                     <div key={item.id}
                                          className="flex items-center justify-between bg-gray-800/50 rounded-xl p-4 hover:bg-gray-800/70 transition-colors">
                                         <div className="flex-1">
@@ -169,28 +183,38 @@ function Order() {
                                     </div>
                                 </div>
                             </div>
-                        ) : (
-                            <div className="text-center py-10">
-                                <div className="text-gray-400 mb-4">{t.no_active_order}</div>
-                                <div className="text-gray-500 text-sm">{t.add_meals_from_menu}</div>
-                            </div>
-                        )}
-                    </div>
-                    {/* Претходни нарачки */}
-                    <div
-                        className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 p-6">
-                        <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-white text-2xl font-bold flex items-center">
-                                <svg className="w-6 h-6 mr-2 text-green-400" fill="none" stroke="currentColor"
-                                     viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                          d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                {t.orders_sand}
-                            </h2>
                         </div>
+                    ) : null}
+                    {/* Претходни нарачки */}
+                    {yourOrder && yourOrder?.meals && yourOrder?.meals?.length > 0 ? (
+                        <div
+                            className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 p-6">
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-white text-2xl font-bold flex items-center">
+                                    <svg className="w-6 h-6 mr-2 text-green-400" fill="none" stroke="currentColor"
+                                         viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                              d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    {t.orders_sand}
 
-                        {yourOrder.meals && yourOrder.meals.length > 0 ? (
+                                </h2>
+                                <div className="flex items-center gap-2">
+                                    {yourOrder.checked ? (
+                                        <div
+                                            className="absolute top-1 right-1 bg-gradient-to-r from-green-800 to-green-400 text-white px-3 py-1 rounded-full flex items-center gap-2 text-sm font-medium shadow-lg">
+                                            {t.checked}
+                                        </div>
+                                    ) : (
+                                        <div
+                                            className="absolute top-1 right-1 bg-gradient-to-r from-blue-800 to-blue-400 text-white px-3 py-1 rounded-full flex items-center gap-2 text-sm font-medium shadow-lg">
+                                            {t.NotChecked}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+
                             <div className="space-y-4">
                                 {yourOrder.meals.map(ordered => (
                                     <div key={ordered.id}
@@ -219,8 +243,8 @@ function Order() {
                                         <span className="text-gray-300">{t.total}:</span>
                                         <div className="text-right">
                                             <div className="text-green-400 font-bold text-xl">
-                                                {l === 'mk' ? <span>{yourOrder.total_price || 0} ден </span> :
-                                                    <span>{yourOrder.total_price ? Number(yourOrder.total_price / 60).toFixed(2) : '0.00'} €</span>}
+                                                {l === 'mk' ? <span>{yourOrder.total_priceMK} ден </span> :
+                                                    <span>{yourOrder.total_price} €</span>}
                                             </div>
                                             <div className="text-gray-400 text-sm">
 
@@ -229,13 +253,9 @@ function Order() {
                                     </div>
                                 </div>
                             </div>
-                        ) : (
-                            <div className="text-center py-10">
-                                <div className="text-gray-400 mb-4">{t.no_orders_yet}</div>
-                                <div className="text-gray-500 text-sm">{t.submit_order_desc}</div>
-                            </div>
-                        )}
-                    </div>
+
+                        </div>
+                    ) : null}
                 </div>
 
                 {/* Акции копчиња */}

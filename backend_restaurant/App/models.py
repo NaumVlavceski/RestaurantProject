@@ -39,6 +39,7 @@ class AcceptedOrder(models.Model):
 class YourOrder(models.Model):
     Table = models.ForeignKey('Table',on_delete=models.CASCADE)
     Meal = models.ForeignKey('Meal',on_delete=models.CASCADE)
+    checked = models.BooleanField(default=False)
     def __str__(self):
         return f" {self.Meal} {self.Table}"
 
