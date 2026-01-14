@@ -65,7 +65,7 @@ def get_meals(request):
 
 @api_view(['GET'])
 def get_meals_by_category(request, category_id):
-    meals = list(Meal.objects.filter(Category_id=category_id).values())
+    meals = list(Meal.objects.filter(Category_id=category_id).order_by("id").values())
     return Response(meals)
 
 

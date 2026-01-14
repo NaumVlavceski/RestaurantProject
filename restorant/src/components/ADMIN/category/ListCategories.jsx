@@ -14,9 +14,8 @@ const ListCategories = () => {
         if (!confirmDelete) return;
 
         try {
-            // await fetch(`http://localhost:8000/removeCategory/${categoryId}/`,{
             await apiFetch(`/removeCategory/${categoryId}/`,{
-                method:"GET",
+                method:"DELETE",
             })
             window.location.reload()
         } catch (err) {

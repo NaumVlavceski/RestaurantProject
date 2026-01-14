@@ -325,7 +325,6 @@ const MenuBook = ({
                             <div
                                 className={`w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-4 ${selectedCategory === item.id ? 'border-yellow-500' : 'border-gray-700'} transition-colors mb-2`}>
                                 <img
-                                    // src={"https://restorantproject-1.onrender.com/media/" + item.photo}
                                     src={"https://res.cloudinary.com/dqscvd9as/image/upload/v1768314305/"+item.photo}
                                     alt={item.title}
                                     className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"

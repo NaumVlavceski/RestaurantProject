@@ -9,7 +9,6 @@ const apiFetch = async (endpoint, options = {}) => {
 
     const token = localStorage.getItem("access");
     if (token) headers["Authorization"] = `Bearer ${token}`;
-    console.log(token)
     const expectResponse = options.expectResponse ? options.expectResponse : true
     let body = options.body;
     if (body && !isFormData && typeof body === "object" && !(body instanceof Blob)) {
@@ -25,12 +24,10 @@ const apiFetch = async (endpoint, options = {}) => {
         body,
         credentials
     });
-    // console.log("Res",res)
     if (!expectResponse){
         return null
     }
 
-    // Пробај да прочиташ JSON, ако не - текст
     const contentType = res.headers.get("content-type") || "";
     const data = contentType.includes("application/json")
         ? await res.json()

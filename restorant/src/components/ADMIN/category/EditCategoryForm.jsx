@@ -46,7 +46,6 @@ const EditCategoryForm = () => {
         try {
             const formDataToSend = new FormData();
 
-            // Додади ги сите полиња
             for (const [key, value] of Object.entries(formData)) {
                 if (key !== 'photo' && value) {
                     formDataToSend.append(key, value);
@@ -62,12 +61,6 @@ const EditCategoryForm = () => {
                 body: formDataToSend,
                 credentials :false
             });
-
-            // const data = await response.json();
-
-            // if (!response.ok) {
-            //     throw new Error(data.errors ? JSON.stringify(data.errors) : 'Request failed');
-            // }
 
             if (data.success) {
                 navigate("/admin/categories")
