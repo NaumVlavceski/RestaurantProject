@@ -10,13 +10,14 @@ const UserRoute = ({children})=>{
             credentials: "include",
         })
             .then(data => {
+                console.log("AUT",data)
                 if (data.is_authenticated) {
                     setStatus("ok");
                 } else {
                     setStatus("denied");
                 }
             })
-            .catch(() => setStatus("denied"));
+            .catch(() =>{ console.log("CHECK AUTH ERROR", err); setStatus("denied")});
     }, []);
 
     if (status === "loading") return <div className="min-h-screen flex items-center justify-center bg-gray-50">
