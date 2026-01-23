@@ -64,9 +64,7 @@ function Table() {
                     <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center">
                         <div
                             className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-2xl p-10 max-w-md mx-4 text-center shadow-2xl">
-                            {/*<div*/}
-                            {/*    className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-yellow-500 mx-auto mb-6"></div>*/}
-                            <div className="justify-items-center">
+                           <div className="justify-items-center">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"

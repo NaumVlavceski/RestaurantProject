@@ -9,7 +9,6 @@ const AdminRoute = ({ children }) => {
         apiFetch("/check-auth/", {
             credentials: "include",
         })
-            // .then(res => res.json())
             .then(data => {
                 if (data.is_authenticated && data.is_staff) {
                     setStatus("ok");

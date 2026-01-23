@@ -11,11 +11,8 @@ function Orders() {
     const [checkedTables, setCheckedTables] = useState({});
     const [changedMeals, setChangedMeals] = useState({});
     const prevOrdersRef = useRef([]);
-    const navigate = useNavigate()
     const [loadingTables, setLoadingTables] = useState({});
     useEffect(() => {
-        document.title = "Orders"
-        // ... (постоечки useEffect код останува ист) ...
         if (orders.length === 0) {
             prevOrdersRef.current = [];
             setChangedMeals({});
@@ -62,6 +59,7 @@ function Orders() {
             if (Object.keys(tableChangedMeals).length > 0) {
                 newChangedMeals[order.table] = tableChangedMeals;
             }
+            console.log(Object.keys(tableChangedMeals))
         });
 
         if (Object.keys(newHighlights).length > 0) {
@@ -150,52 +148,24 @@ function Orders() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-6 sm:py-8 px-3 sm:px-6">
+        <section id="orders" className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 px-6">
             <div className="max-w-7xl mx-auto">
+                <div className="py-3">
+                    <div className="grid grid-cols-2 lg:grid-cols-2 gap-3 sm:gap-4 ">
+                        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
+                            <div className="text-xs sm:text-sm text-gray-500 font-medium">Активни нарачки</div>
+                            <div className="text-xl sm:text-2xl font-bold text-gray-900">{orders.length}</div>
+                        </div>
 
-                {/* Sticky Header */}
-                <div className="sticky top-0 z-10 -mx-3 sm:mx-0 mb-4 sm:mb-6">
-                    <div
-                        className="bg-white/80 backdrop-blur border border-gray-200 rounded-2xl px-3 sm:px-5 py-3 shadow-sm">
-                        <div className="flex items-center justify-between gap-3">
-                            <button
-                                type="button"
-                                onClick={() => navigate("/user/")}
-                                className="shrink-0 p-2 hover:bg-gray-100 rounded-lg transition"
-                            >
-                                <ArrowLeftIcon className="h-5 w-5 text-gray-600"/>
-                            </button>
-
-                            <div className="min-w-0">
-                                <p className="text-sm text-gray-500">Управување</p>
-                                <h1 className="text-base sm:text-lg font-semibold text-gray-900 truncate">
-                                    Нарачки
-                                </h1>
-                            </div>
-
-                            <div className="grid grid-cols-2 lg:grid-cols-2 gap-3 sm:gap-4 ">
-                                <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
-                                    <div className="text-xs sm:text-sm text-gray-500 font-medium">Активни нарачки</div>
-                                    <div className="text-xl sm:text-2xl font-bold text-gray-900">{orders.length}</div>
-                                </div>
-
-                                <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
-                                    <div className="text-xs sm:text-sm text-gray-500 font-medium">Нови промени</div>
-                                    <div className="text-xl sm:text-2xl font-bold text-yellow-600">
-                                        {Object.keys(highlightedTables).filter(k => highlightedTables[k]).length}
-                                    </div>
-                                </div>
+                        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
+                            <div className="text-xs sm:text-sm text-gray-500 font-medium">Нови промени</div>
+                            <div className="text-xl sm:text-2xl font-bold text-yellow-600">
+                                {Object.keys(highlightedTables).filter(k => highlightedTables[k]).length}
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Title + subtitle */}
-
-                {/* Stats */}
-
-
-                {/* Empty state */}
                 {orders.length === 0 ? (
                     <div className="bg-white rounded-2xl shadow-lg p-10 sm:p-12 text-center border border-gray-100">
                         <div className="max-w-md mx-auto">
@@ -210,7 +180,6 @@ function Orders() {
                         </div>
                     </div>
                 ) : (
-                    /* Orders grid (mobile-first) */
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
                         {orders.map(order => {
                             const isHighlighted = highlightedTables[order.table];
@@ -232,7 +201,6 @@ function Orders() {
                                     }
               `}
                                 >
-                                    {/* Card header */}
                                     <div
                                         className={`
                   p-4 border-b
@@ -282,8 +250,6 @@ function Orders() {
                                             </div>
                                         </div>
                                     </div>
-
-                                    {/* Card body */}
                                     <div className="p-4">
                                         <div className="mb-4 max-h-48 overflow-y-auto pr-1">
                                             {order.meals.map((meal, index) => {
@@ -364,7 +330,6 @@ function Orders() {
                                         </div>
                                     </div>
 
-                                    {/* Actions */}
                                     <div className="p-4 bg-gray-50 border-t border-gray-200">
                                         <div className="flex flex-col gap-3">
                                             <button
@@ -412,7 +377,7 @@ function Orders() {
                 )}
 
             </div>
-        </div>
+        </section>
 
     );
 }

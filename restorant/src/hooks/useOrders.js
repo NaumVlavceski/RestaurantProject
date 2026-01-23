@@ -3,7 +3,6 @@ import apiFetch from "../api/api.js";
 
 const useOrders = () => {
     const [orders, setOrders] = useState([]);
-    const [lastUpdate, setLastUpdate] = useState(Date.now());
 
     const fetchOrders = useCallback(async () => {
         try {
@@ -16,11 +15,8 @@ const useOrders = () => {
 
     useEffect(() => {
         fetchOrders();
-
-        // Fetch orders на секои 5 секунди за real-time ажурирање
         const intervalId = setInterval(fetchOrders, 2000);
 
-        // Слушај за custom events
         const handleOrdersUpdated = () => {
             fetchOrders();
         };

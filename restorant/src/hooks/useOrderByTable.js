@@ -7,9 +7,7 @@ const useOrderByTable = (tableId, setOrderByTable) => {
 
         const fetchOrder = async () => {
             try {
-                // const res = await fetch(`http://127.0.0.1:8000/order/${tableId}/`);
                 const data = await apiFetch(`/order/${tableId}/`);
-                // const data = await res.json();
                 setOrderByTable(data);
             } catch (err) {
                 console.error(err);

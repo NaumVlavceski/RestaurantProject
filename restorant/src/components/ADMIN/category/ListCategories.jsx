@@ -32,13 +32,12 @@ const ListCategories = () => {
         <div className="flex justify-center px-3 sm:px-6">
             <div className="w-full max-w-5xl bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
 
-                {/* HEADER */}
                 <div className="bg-gradient-to-r from-gray-50 to-blue-50 px-4 sm:px-6 py-4 border-b border-gray-200">
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 
                         <div className="flex items-center gap-3 min-w-0">
                             <button
-                                onClick={() => navigate("/admin")}
+                                onClick={() => navigate("/user")}
                                 className="shrink-0 p-2 hover:bg-gray-100 rounded-lg transition duration-200"
                             >
                                 <ArrowLeftIcon className="h-5 w-5 text-gray-600" />
@@ -62,7 +61,7 @@ const ListCategories = () => {
                         </div>
 
                         <button
-                            onClick={() => navigate("/admin/addCategory")}
+                            onClick={() => navigate("/user/addCategory")}
                             className="w-full sm:w-auto justify-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200
                      bg-gradient-to-r from-green-50 to-green-100 border border-green-200
                      text-green-600 hover:from-green-100 hover:to-green-200 hover:border-green-300
@@ -78,7 +77,6 @@ const ListCategories = () => {
                     </div>
                 </div>
 
-                {/* BODY */}
                 <div className="p-4 sm:p-6">
                     {categories.length === 0 ? (
                         <div className="text-center py-10">

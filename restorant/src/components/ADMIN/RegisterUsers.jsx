@@ -69,14 +69,13 @@ const RegisterUsers = () => {
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-6 sm:py-10 px-3 sm:px-6">
             <div className="max-w-md mx-auto">
 
-                {/* Sticky top actions */}
                 <div className="sticky top-0 z-10 -mx-3 sm:mx-0 mb-4 sm:mb-6">
                     <div
                         className="bg-white/80 backdrop-blur border border-gray-200 rounded-2xl px-3 sm:px-4 py-3 shadow-sm">
                         <div className="flex items-center justify-between gap-3">
                             <button
                                 type="button"
-                                onClick={() => navigate("/admin")}
+                                onClick={() => navigate("/user")}
                                 className="shrink-0 p-2 hover:bg-gray-100 rounded-lg transition"
                             >
                                 <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor"
@@ -101,7 +100,6 @@ const RegisterUsers = () => {
 
                 <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
 
-                    {/* Header inside card */}
                     <div
                         className="bg-gradient-to-r from-gray-50 to-blue-50 px-4 sm:px-6 py-4 border-b border-gray-200">
                         <div className="flex items-start gap-3">
@@ -121,7 +119,6 @@ const RegisterUsers = () => {
 
                     <div className="p-4 sm:p-6">
 
-                        {/* Success */}
                         {message && (
                             <div
                                 className="mb-4 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl">
@@ -139,7 +136,6 @@ const RegisterUsers = () => {
                             </div>
                         )}
 
-                        {/* Error */}
                         {error && (
                             <div
                                 className="mb-4 p-4 bg-gradient-to-r from-red-50 to-pink-50 border border-red-200 rounded-xl">
@@ -157,10 +153,8 @@ const RegisterUsers = () => {
                             </div>
                         )}
 
-                        {/* ONE form */}
                         <form id="createUserForm" onSubmit={handleSubmit} className="space-y-5">
 
-                            {/* Username */}
                             <div className="space-y-2">
                                 <label className="block text-sm font-semibold text-gray-700">
               <span className="flex items-center mb-2">
@@ -196,7 +190,6 @@ const RegisterUsers = () => {
                                 </label>
                             </div>
 
-                            {/* Password */}
                             <div className="space-y-2">
                                 <label className="block text-sm font-semibold text-gray-700">
               <span className="flex items-center mb-2">
@@ -230,7 +223,6 @@ const RegisterUsers = () => {
                                 </label>
                             </div>
 
-                            {/* Confirm */}
                             <div className="space-y-2">
                                 <label className="block text-sm font-semibold text-gray-700">
               <span className="flex items-center mb-2">
@@ -264,7 +256,6 @@ const RegisterUsers = () => {
                                 </label>
                             </div>
 
-                            {/* Bottom submit (nice on mobile) */}
                             <button
                                 type="submit"
                                 disabled={loading}

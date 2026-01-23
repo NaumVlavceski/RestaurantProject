@@ -1,26 +1,27 @@
-from django.contrib.auth import authenticate, login as django_login
-from django.contrib.auth import logout as django_logout
+from datetime import datetime, timedelta
+from django.utils import timezone
+
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.http import JsonResponse
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
-from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.permissions import IsAdminUser
 from rest_framework.permissions import IsAuthenticated
-
-# Create your views here.
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, parser_classes, permission_classes, authentication_classes
+from rest_framework.decorators import api_view, parser_classes, permission_classes
 from django.db.models import CharField
 from django.db.models.functions import Cast
 from rest_framework.views import APIView
 
 from App.forms import MealForm, CategoryForm
-from App.models import Category, Meal, Table, MealTable, AcceptedOrder, YourOrder, Payment
+from App.models import *
 
 from django.http import JsonResponse
 from django.db import connection
+
 
 def debug_status(request):
     tables = connection.introspection.table_names()
@@ -32,9 +33,12 @@ def debug_status(request):
         "orders_error": error,
     })
 
+
 @ensure_csrf_cookie
 def csrf(request):
     return JsonResponse({"detail": "CSRF cookie set"})
+
+
 @api_view(['GET'])
 def get_categories(request):
     categories = Category.objects.all().order_by("id").values()
@@ -73,7 +77,8 @@ def get_meals_by_category(request, category_id):
 def get_tables(request):
     query = request.GET.get('q', '')
     if query:
-        tables = Table.objects.annotate(id_str=Cast('id', CharField())).filter(id_str__istartswith=query).values().order_by('id')
+        tables = Table.objects.annotate(id_str=Cast('id', CharField())).filter(
+            id_str__istartswith=query).values().order_by('id')
     else:
         tables = Table.objects.all().values().order_by('id')
     return Response(list(tables))
@@ -82,7 +87,6 @@ def get_tables(request):
 class GroupedOrders(APIView):
     def get(self, request):
         data = AcceptedOrder.objects.all().select_related('Table', 'Meal')
-
         grouped = {}
 
         for item in data:
@@ -140,11 +144,13 @@ class GroupedOrders(APIView):
 class OrdersByTable(APIView):
     def get(self, request, table_id):
         data = MealTable.objects.filter(Table_id=table_id).select_related('Meal')
+        if data and timezone.now() - data.last().created_at > timedelta(minutes=30):
+            data.delete()
+            OrdersByTable.as_view()
         grouped = {}
 
         for item in data:
             meal = item.Meal
-
             if meal.id not in grouped:
                 grouped[meal.id] = {
                     "id": meal.id,
@@ -160,12 +166,10 @@ class OrdersByTable(APIView):
             grouped[meal.id]["subtotal"] = grouped[meal.id]["count"] * meal.priceMK
 
         total_price = sum(meal_info["subtotal"] for meal_info in grouped.values())
-
         resp = {
             "table": table_id,
             "meals": list(grouped.values()),
-            "total_price": total_price
-
+            "total_price": total_price,
         }
 
         return Response(resp)
@@ -196,7 +200,7 @@ def remove_meal(request, table_id, meal_id):
 @api_view(['POST'])
 def add_order(request, table_id):
     items = MealTable.objects.filter(Table_id=table_id)
-    Yorder =YourOrder.objects.filter(Table_id=table_id)
+    Yorder = YourOrder.objects.filter(Table_id=table_id)
     for o in Yorder:
         o.checked = False
         o.save()
@@ -311,10 +315,11 @@ def add_meal_to_menu(request):
         fields = {name: str(field.__class__.__name__) for name, field in MealForm().fields.items()}
         return Response({"fields": fields}, status=status.HTTP_200_OK)
 
+
 @api_view(['POST', 'GET'])
 @parser_classes([MultiPartParser, FormParser, JSONParser])
 @permission_classes([IsAdminUser])
-def edit_meal_to_menu(request,meal_id):
+def edit_meal_to_menu(request, meal_id):
     meal = Meal.objects.get(id=meal_id)
     print(meal)
     if request.method == "POST":
@@ -325,7 +330,7 @@ def edit_meal_to_menu(request,meal_id):
 
         print("DATA:", data)
 
-        form = MealForm(data, request.FILES,instance=meal)
+        form = MealForm(data, request.FILES, instance=meal)
         if form.is_valid():
             meal = form.save()
             return Response(
@@ -340,18 +345,19 @@ def edit_meal_to_menu(request,meal_id):
         return Response({
             "id": meal_id,
             "title": meal.title,
-            "price":meal.price,
+            "price": meal.price,
             "titleMK": meal.titleMK,
             "priceMK": meal.priceMK,
-            "photo":meal.photo.url if meal.photo else None,
-            "description":meal.description,
-            "descriptionMK":meal.descriptionMK,
+            "photo": meal.photo.url if meal.photo else None,
+            "description": meal.description,
+            "descriptionMK": meal.descriptionMK,
             "Category": meal.Category.id if meal.Category else None,
         }, status=200)
 
+
 @api_view(['DELETE'])
 @permission_classes([IsAdminUser])
-def remove_meal_from_menu(request,meal_id):
+def remove_meal_from_menu(request, meal_id):
     try:
         meal = Meal.objects.get(id=meal_id)
         meal.delete()
@@ -387,17 +393,18 @@ def add_category_to_menu(request):
         fields = {name: str(field.__class__.__name__) for name, field in CategoryForm().fields.items()}
         return Response({"fields": fields}, status=status.HTTP_200_OK)
 
+
 @api_view(['POST', 'GET'])
 @parser_classes([MultiPartParser, FormParser, JSONParser])
 @permission_classes([IsAdminUser])
-def edit_category_to_menu(request,category_id):
+def edit_category_to_menu(request, category_id):
     category = Category.objects.get(id=category_id)
     if request.method == "POST":
         data = request.data.copy()
 
         print("DATA:", data)
 
-        form = CategoryForm(data, request.FILES,instance=category)
+        form = CategoryForm(data, request.FILES, instance=category)
         if form.is_valid():
             category = form.save()
             return Response(
@@ -413,12 +420,13 @@ def edit_category_to_menu(request,category_id):
             "id": category.id,
             "title": category.title,
             "titleMK": category.titleMK,
-            "photo":category.photo.url if category.photo else None,
+            "photo": category.photo.url if category.photo else None,
         }, status=200)
+
 
 @api_view(['DELETE'])
 @permission_classes([IsAdminUser])
-def remove_category_from_menu(request,category_id):
+def remove_category_from_menu(request, category_id):
     try:
         category = Category.objects.get(id=category_id)
         category.delete()
@@ -430,8 +438,6 @@ def remove_category_from_menu(request,category_id):
         )
 
 
-
-
 @api_view(['POST', 'GET'])
 @parser_classes([MultiPartParser, FormParser, JSONParser])
 @permission_classes([IsAdminUser])
@@ -441,8 +447,6 @@ def register(request):
         form = UserCreationForm(data)
         if form.is_valid():
             user = form.save(commit=False)
-            # user.is_staff = True
-            # user.is_superuser = True
 
             user.save()
             return Response(
@@ -492,18 +496,22 @@ def logout_view(request):
     except Exception:
         return Response({"success": False}, status=400)
 
+
 @api_view(['GET'])
 # @permission_classes([IsAuthenticated])
 def check_auth(request):
     return Response({
-        "is_staff":request.user.is_staff,
+        "is_staff": request.user.is_staff,
         "is_authenticated": request.user.is_authenticated,
         "username": request.user.username if request.user.is_authenticated else None
     })
+
+
 @api_view(['GET'])
 def users(request):
     data = User.objects.all().values()
     return Response(list(data))
+
 
 @api_view(["DELETE"])
 @permission_classes([IsAdminUser])
@@ -514,6 +522,7 @@ def remove_user(request, user_id):
         return Response({"success": True})
     return Response({"success": False}, status=404)
 
+
 @api_view(["POST"])
 def checked_order(request, table_id):
     orders = YourOrder.objects.filter(Table_id=table_id)
@@ -521,6 +530,13 @@ def checked_order(request, table_id):
     if not orders.exists():
         return Response({"success": False, "message": "No orders found"}, status=404)
 
-    orders.update(checked=True)   # 🔥 ова е најважното
+    orders.update(checked=True)  # 🔥 ова е најважното
 
     return Response({"success": True})
+
+@api_view(["PATCH"])
+def update_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    user.is_staff = True
+    user.save()
+    return Response({"is_staff": user.is_staff})

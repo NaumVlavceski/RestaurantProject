@@ -6,16 +6,6 @@ const useOrderMeal = (tableId) => {
         if (!tableId) return;
 
         try {
-            // const res = await fetch(`http://192.168.0.103:8000/add_order/${tableId}/`, {
-            // // const data = await apiFetch(`/add_order/${tableId}/`, {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json"
-            //     },
-            //     body: JSON.stringify({})
-            // });
-            //
-            // const data = await res.json();
             const data = await apiFetch(`/add_order/${tableId}/`, {
                 method: "POST",
                 body:{},

@@ -21,7 +21,7 @@ from django.conf import settings
 from App.views import get_categories, get_meals, get_meals_by_category, get_tables, GroupedOrders, add_meal, \
     OrdersByTable, remove_meal, add_order, remove_order, YourOrderView, set_payment, get_payment, add_meal_to_menu, \
     add_category_to_menu, register, check_auth, logout_view, users, remove_user, edit_meal_to_menu, \
-    remove_meal_from_menu, edit_category_to_menu, remove_category_from_menu, csrf, checked_order
+    remove_meal_from_menu, edit_category_to_menu, remove_category_from_menu, csrf, checked_order,update_user
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 urlpatterns = [
     path('owner/', admin.site.urls),
@@ -46,7 +46,6 @@ urlpatterns = [
     path('editCategory/<int:category_id>/', edit_category_to_menu),
     path('removeCategory/<int:category_id>/', remove_category_from_menu),
     path('register/', register),
-    # path('login/', login_view),
     path('logout/', logout_view),
     path('check-auth/', check_auth),
     path('users/', users),
@@ -55,5 +54,6 @@ urlpatterns = [
 
     path('api/token/',TokenObtainPairView.as_view(),name='token_obtain_pair'),
     path('api/token/refresh/',TokenRefreshView.as_view(),name='token_refresh'),
+    path('update_user/<int:user_id>/', update_user),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

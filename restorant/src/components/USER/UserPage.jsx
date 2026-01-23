@@ -7,20 +7,27 @@ import {
     Cog6ToothIcon,
     ArrowRightOnRectangleIcon,
 } from '@heroicons/react/24/outline';
+import {Menu, X} from "lucide-react";
 import apiFetch from "../../api/api.js";
+import Tables from "./Waiter/Tables.jsx";
+import Orders from "./Waiter/Orders.jsx";
+import AdminPage from "../ADMIN/AdminPage.jsx";
 
 const UserPage = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [admin, setAdmin] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [activeSection, setActiveSection] = useState(() => {
+        return localStorage.getItem("activeSection") || "tables";
+    });
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     useEffect(() => {
         document.title = "Welcome"
         apiFetch("/check-auth/", {
             credentials: "include",
         })
-            // .then((res) => res.json())
             .then((data) => {
                 if (!data.is_authenticated) {
                     navigate("/login");
@@ -36,33 +43,24 @@ const UserPage = () => {
                 navigate("/login");
             });
     }, [navigate]);
-
-    // const handleLogout = async () => {
-    //     // try {
-    //     //     await apiFetch("/logout/", {
-    //     //         credentials: "include",
-    //     //         // headers: { "Content-Type": "application/json" },
-    //     //     });
-    //     //     navigate("/login");
-    //     // } catch (error) {
-    //     //     console.error("Logout error:", error);
-    //     // }
-    //     localStorage.removeItem("access");
-    //     localStorage.removeItem("refresh");
-    //     navigate("/login");
-    // };
     const handleLogout = async () => {
         try {
             await apiFetch("/logout/", {
                 method: "POST",
-                body: { refresh: localStorage.getItem("refresh") },
+                body: {refresh: localStorage.getItem("refresh")},
             });
-        } catch (e) {}
+        } catch (e) {
+        }
 
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
         navigate("/login");
     };
+    const handleNavigation = (id) => {
+        setActiveSection(id)
+        localStorage.setItem("activeSection", id);
+        setIsMenuOpen(false)
+    }
 
     if (loading) {
         return (
@@ -71,11 +69,31 @@ const UserPage = () => {
             </div>
         );
     }
+    const navLinks = [
+        {
+            icon: TableCellsIcon,
+            name: "Маси",
+            id: "tables",
+            color: "text-blue-600",
+        },
+        {
+            icon: ClipboardDocumentListIcon,
+            name: "Нарачки",
+            id: "orders",
+            color: "text-green-600",
+        },
+        ...(admin ? [{
+            icon: Cog6ToothIcon,
+            name: "Админ",
+            id: "admin",
+            color: "text-purple-600",
+        }]:[])
+
+    ]
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-            {/* Header */}
-            <header className="bg-white shadow-sm">
+            <header className=" bg-white shadow-sm">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center py-4">
                         <div className="flex items-center space-x-3">
@@ -85,76 +103,77 @@ const UserPage = () => {
                                 <p className="text-sm text-gray-600">{user}</p>
                             </div>
                         </div>
+                        <div className="hidden md:flex">
+                            {navLinks.map((item, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => handleNavigation(item.id)}
+                                    className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition duration-200"
+                                >
+                                    <item.icon className={`h-6 w-6 ${item.color}`}/>
+                                    <span>{item.name}</span>
+                                </button>
+                            ))}
+                            <button
+                                onClick={handleLogout}
+                                className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition duration-200"
+                            >
+                                <ArrowRightOnRectangleIcon className="h-5 w-5 text-red-600"/>
+                                <span>Одјави се</span>
+                            </button>
+                        </div>
                         <button
-                            onClick={handleLogout}
-                            className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition duration-200"
+                            className="md:hidden right-5 z-20 fixed"
+                            onClick={() => setIsMenuOpen((p) => !p)}
+                            aria-label="Toggle menu"
                         >
-                            <ArrowRightOnRectangleIcon className="h-5 w-5"/>
-                            <span>Одјави се</span>
+                            {isMenuOpen ? <X/> : <Menu/>}
                         </button>
                     </div>
                 </div>
-            </header>
+                <div
+                    className={`md:hidden fixed top-0 z-15 right-0 h-full w-80 bg-gray-50
+          transform transition-transform duration-300 ease-in-out
+          ${isMenuOpen ? "translate-x-40" : "translate-x-full"}`}
+                >
+                    <div className="pt-20 px-2">
+                        <ul className="space-y-6">
+                            {navLinks.map((item, index) => (
+                                <li
+                                    className={`transform transition-all duration-300
+                  ${isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"}`}
+                                    style={{transitionDelay: `${index * 70}ms`}}
+                                >
+                                    <button
+                                        onClick={() => handleNavigation(item.id)}
+                                        className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-500"
+                                    >
+                                        <item.icon className={`h-6 w-6 ${item.color}`}/>
+                                        <span>{item.name}</span>
+                                    </button>
+                                </li>
+                            ))}
 
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {/* Tables Card */}
-                    <div
-                        onClick={() => navigate("tables")}
-                        className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-blue-300 transition duration-200 cursor-pointer group"
-                    >
-                        <div className="flex items-start justify-between">
-                            <div className="p-3 bg-blue-50 rounded-lg group-hover:bg-blue-100 transition duration-200">
-                                <TableCellsIcon className="h-8 w-8 text-blue-600"/>
-                            </div>
-                            <span className="text-sm font-medium text-blue-600 group-hover:text-blue-700">→</span>
-                        </div>
-                        <h3 className="mt-4 text-lg font-semibold text-gray-900">Маси</h3>
-                        <p className="mt-2 text-sm text-gray-600">
-                            Преглед и управување со масите во ресторанот
-                        </p>
+                            <li
+                                className={`transform transition-all duration-300
+                  ${isMenuOpen ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"}`}
+                                style={{transitionDelay: `210ms`}}
+                            >
+                                <button
+                                    onClick={handleLogout}
+                                    className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-500"
+                                >
+                                    <ArrowRightOnRectangleIcon className="h-5 w-5 text-red-600"/>
+                                    <span>Одјави се</span>
+                                </button>
+                            </li>
+                        </ul>
                     </div>
-
-                    {/* Orders Card */}
-                    <div
-                        onClick={() => navigate("orders")}
-                        className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-green-300 transition duration-200 cursor-pointer group"
-                    >
-                        <div className="flex items-start justify-between">
-                            <div
-                                className="p-3 bg-green-50 rounded-lg group-hover:bg-green-100 transition duration-200">
-                                <ClipboardDocumentListIcon className="h-8 w-8 text-green-600"/>
-                            </div>
-                            <span className="text-sm font-medium text-green-600 group-hover:text-green-700">→</span>
-                        </div>
-                        <h3 className="mt-4 text-lg font-semibold text-gray-900">Нарачки</h3>
-                        <p className="mt-2 text-sm text-gray-600">
-                            Преглед и управување со нарачките
-                        </p>
-                    </div>
-
-                    {/* Admin Card */}
-                    {admin && (
-                        <div
-                            onClick={() => navigate("/admin")}
-                            className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-purple-300 transition duration-200 cursor-pointer group"
-                        >
-                            <div className="flex items-start justify-between">
-                                <div
-                                    className="p-3 bg-purple-50 rounded-lg group-hover:bg-purple-100 transition duration-200">
-                                    <Cog6ToothIcon className="h-8 w-8 text-purple-600"/>
-                                </div>
-                                <span
-                                    className="text-sm font-medium text-purple-600 group-hover:text-purple-700">→</span>
-                            </div>
-                            <h3 className="mt-4 text-lg font-semibold text-gray-900">Администрација</h3>
-                            <p className="mt-2 text-sm text-gray-600">
-                                Административни функции и подесувања
-                            </p>
-                        </div>
-                    )}
                 </div>
-            </main>
+            </header>
+            {activeSection === "tables" && <Tables/>}
+            {activeSection === "orders" && <Orders/>}
+            {activeSection === "admin" && admin && <AdminPage/>}
         </div>
     );
 };

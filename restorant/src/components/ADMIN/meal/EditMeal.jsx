@@ -74,7 +74,7 @@ const EditMealForm = () => {
             // }
 
             if (data.success) {
-                navigate("/admin/meals")
+                navigate("/user/meals")
                 // Ресетирај го формуларот
             }
         } catch (err) {
@@ -88,14 +88,13 @@ const EditMealForm = () => {
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-6 sm:py-8 px-3 sm:px-6">
             <div className="max-w-6xl mx-auto">
 
-                {/* Sticky top actions */}
                 <div className="sticky top-0 z-10 -mx-3 sm:mx-0 mb-4 sm:mb-6">
                     <div
                         className="bg-white/80 backdrop-blur border border-gray-200 rounded-2xl px-3 sm:px-4 py-3 shadow-sm">
                         <div className="flex items-center justify-between gap-3">
                             <button
                                 type="button"
-                                onClick={() => navigate("/admin/meals")}
+                                onClick={() => navigate("/user/meals")}
                                 className="shrink-0 p-2 hover:bg-gray-100 rounded-lg transition"
                             >
                                 <ArrowLeftIcon className="h-5 w-5 text-gray-600"/>
@@ -114,7 +113,6 @@ const EditMealForm = () => {
                     </div>
                 </div>
 
-                {/* Messages */}
                 {(message || error) && (
                     <div className="mb-4 sm:mb-6 space-y-3">
                         {message && (
@@ -135,7 +133,6 @@ const EditMealForm = () => {
                     <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
                         <div className="md:flex">
 
-                            {/* LEFT */}
                             <div className="md:w-1/2 p-4 sm:p-6 md:p-8">
                                 <div className="mb-5">
                                     <h2 className="text-lg font-semibold text-gray-900">Основни информации</h2>
@@ -143,7 +140,6 @@ const EditMealForm = () => {
                                 </div>
 
                                 <div className="space-y-6">
-                                    {/* Category */}
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium text-gray-700">Category *</label>
                                         <select
@@ -163,7 +159,6 @@ const EditMealForm = () => {
                                         </select>
                                     </div>
 
-                                    {/* Titles */}
                                     <div className="grid sm:grid-cols-2 gap-4">
                                         <div className="space-y-2">
                                             <label className="text-sm font-medium text-gray-700">English Title</label>
@@ -195,7 +190,6 @@ const EditMealForm = () => {
                                         </div>
                                     </div>
 
-                                    {/* Prices */}
                                     <div className="grid sm:grid-cols-2 gap-4">
                                         <div className="space-y-2">
                                             <label className="text-sm font-medium text-gray-700">Price (€)</label>
@@ -240,7 +234,6 @@ const EditMealForm = () => {
                                 </div>
                             </div>
 
-                            {/* RIGHT */}
                             <div
                                 className="md:w-1/2 bg-gray-50 p-4 sm:p-6 md:p-8 border-t md:border-t-0 md:border-l border-gray-200">
                                 <div className="mb-5">
@@ -249,7 +242,6 @@ const EditMealForm = () => {
                                 </div>
 
                                 <div className="space-y-6">
-                                    {/* Descriptions */}
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium text-gray-700">English Description</label>
                                         <textarea
@@ -277,7 +269,6 @@ const EditMealForm = () => {
                                         />
                                     </div>
 
-                                    {/* Photo */}
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium text-gray-700">Meal Photo</label>
 

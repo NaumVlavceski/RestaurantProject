@@ -22,12 +22,12 @@ class Table(models.Model):
     tableName = models.CharField(max_length=100,blank=True,null=True)
     def __str__(self):
         return self.tableName
-# Create your models here.
 
 
 class MealTable(models.Model):
     Table = models.ForeignKey('Table',on_delete=models.CASCADE)
     Meal = models.ForeignKey('Meal',on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)
     def __str__(self):
         return f" {self.Meal} {self.Table}"
 

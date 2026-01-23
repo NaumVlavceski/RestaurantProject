@@ -21,12 +21,9 @@ function AdminPage() {
     // const [l,setL] = useState("mk")
     // const t = useTranslate(l)
     useEffect(() => {
-        document.title = "Admin Page"
         apiFetch("/check-auth/", {
             credentials: "include",
         })
-        // apiFetch(`/check-auth`)
-            // .then((res) => res.json())
             .then((data) => {
                 if (!data.is_staff) {
                     navigate("/login");
@@ -90,34 +87,8 @@ function AdminPage() {
 
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Header */}
-            <header className="bg-white shadow-sm">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between py-4">
-                        <div className="flex items-center space-x-4">
-                            <button
-                                onClick={() => navigate("/user")}
-                                className="p-2 hover:bg-gray-100 rounded-lg transition duration-200"
-                            >
-                                <ArrowLeftIcon className="h-5 w-5 text-gray-600" />
-                            </button>
-                            <div className="flex items-center space-x-3">
-                                <div className="p-2 bg-blue-100 rounded-lg">
-                                    <Cog6ToothIcon className="h-6 w-6 text-blue-600" />
-                                </div>
-                                <div>
-                                    <h1 className="text-xl font-semibold text-gray-900">Администрација</h1>
-                                    <p className="text-sm text-gray-600">Администратор: {user}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
+        <section id="admin" className="min-h-screen bg-gray-50">
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Admin Cards Grid */}
                 <h2 className="text-lg font-semibold text-gray-900 mb-6">Административни функции</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {adminCards.map((card, index)=> (
@@ -139,10 +110,8 @@ function AdminPage() {
                         </div>
                     ))}
                 </div>
-
-
             </main>
-        </div>
+        </section>
     );
 }
 

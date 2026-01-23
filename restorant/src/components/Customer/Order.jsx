@@ -81,13 +81,11 @@ function Order() {
             >
                 <img src={`/flag_${l === 'mk' ? 'en' : 'mk'}.png`} className='w-10 h-10'/>
             </button>
-            {/* Декоративни елементи */}
             <div
                 className="absolute inset-0 bg-[url('/menu-bg-small.jpg')] bg-cover bg-center bg-no-repeat opacity-10"></div>
             <div
                 className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500"></div>
 
-            {/* Заглавие */}
             <div className="relative px-4 mb-8">
                 <h1 className="text-center text-4xl md:text-6xl font-bold text-white mb-2 drop-shadow-lg">
                     {t.your_order}
@@ -97,14 +95,11 @@ function Order() {
                 </p>
             </div>
 
-            {/* Waiting Overlay */}
             {isWaiting && (
                 <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center">
                     <div
                         className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-2xl p-10 max-w-md mx-4 text-center shadow-2xl">
-                        {/*<div*/}
-                        {/*    className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-yellow-500 mx-auto mb-6"></div>*/}
-                        <div className="justify-items-center">
+                       <div className="justify-items-center">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
@@ -124,12 +119,10 @@ function Order() {
                 </div>
             )}
 
-            {/* Главна содржина */}
             <div className="relative px-4 mb-24 max-w-6xl mx-auto">
-                {/* Карти за нарачка */}
                 <div
                     className={`grid grid-cols-1  gap-8 mb-10 ${(orderByTable.meals && orderByTable.meals.length > 0) && (yourOrder && yourOrder.meals && yourOrder.meals.length > 0) ? "lg:grid-cols-2" : "lg:grid-cols-1"}`}>
-                    {/* Активна нарачка */}
+
                     {orderByTable?.meals && orderByTable?.meals?.length > 0 ? (
                         <div
                             className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 p-6">
@@ -169,7 +162,6 @@ function Order() {
                                     </div>
                                 ))}
 
-                                {/* Вкупно за активна нарачка */}
                                 <div className="border-t border-gray-700 pt-4 mt-4">
                                     <div className="flex justify-between text-lg">
                                         <span className="text-gray-300">{t.total}:</span>
@@ -185,7 +177,6 @@ function Order() {
                             </div>
                         </div>
                     ) : null}
-                    {/* Претходни нарачки */}
                     {yourOrder && yourOrder?.meals && yourOrder?.meals?.length > 0 ? (
                         <div
                             className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 p-6">
@@ -237,7 +228,6 @@ function Order() {
                                     </div>
                                 ))}
 
-                                {/* Вкупно за испратени нарачки */}
                                 <div className="border-t border-gray-700 pt-4 mt-4">
                                     <div className="flex justify-between text-lg">
                                         <span className="text-gray-300">{t.total}:</span>
@@ -258,10 +248,8 @@ function Order() {
                     ) : null}
                 </div>
 
-                {/* Акции копчиња */}
                 <div className="bg-black/50 backdrop-blur-lg rounded-2xl p-6 mb-10">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {/* Копче назад */}
                         <button
                             className="group bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 cursor-pointer text-white font-bold py-4 px-6 rounded-xl text-lg flex items-center justify-center space-x-3 transition-all duration-300 hover:scale-[1.02] active:scale-95 border border-gray-600"
                             onClick={() => navigate(`/table/${tableId}`)}
@@ -274,7 +262,6 @@ function Order() {
                             <span>{t.back_to_menu}</span>
                         </button>
 
-                        {/* Копче за испраќање */}
                         <button
                             className={`group font-bold py-4 px-6 rounded-xl text-lg flex items-center justify-center space-x-3 transition-all duration-300 ${orderByTable.meals && orderByTable.meals.length > 0
                                 ? 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 cursor-pointer hover:scale-[1.02] active:scale-95 text-white'
@@ -299,7 +286,6 @@ function Order() {
                             )}
                         </button>
 
-                        {/* Информација за испратени */}
                         <div
                             className="bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl p-4 border border-gray-700">
                             <div className="text-center">
@@ -313,7 +299,6 @@ function Order() {
                     </div>
                 </div>
 
-                {/* Плаќање секција - само ако има испратени нарачки */}
                 {yourOrder.meals && yourOrder.meals.length > 0 && (
                     <div
                         className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl overflow-hidden border border-gray-700/50 p-8">
@@ -325,7 +310,6 @@ function Order() {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                            {/* Cash плаќање */}
                             <button
                                 className={`p-6 rounded-xl border-2 transition-all duration-300 flex flex-col items-center justify-center ${selectedPayment === "cash"
                                     ? 'border-green-500 bg-green-500/10 scale-105'
@@ -346,7 +330,6 @@ function Order() {
                                 <p className="text-gray-400 text-center text-sm">{t.cash_desc}</p>
                             </button>
 
-                            {/* Card плаќање */}
                             <button
                                 className={`p-6 rounded-xl border-2 transition-all duration-300 flex flex-col items-center justify-center ${selectedPayment === "card"
                                     ? 'border-blue-500 bg-blue-500/10 scale-105'
@@ -368,19 +351,8 @@ function Order() {
                             </button>
                         </div>
 
-                        {/* Информација за плаќање */}
                         <div className="border-t border-gray-700 pt-6">
                             <div className="text-center text-gray-400 text-sm">
-                                {/*{selectedPayment ? (*/}
-                                {/*    <div className="flex items-center justify-center space-x-2">*/}
-                                {/*        <svg className="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">*/}
-                                {/*            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>*/}
-                                {/*        </svg>*/}
-                                {/*        <span>Избрано е плаќање со {selectedPayment === "cash" ? "готово" : "картичка"}. Придржувајте се во близина.</span>*/}
-                                {/*    </div>*/}
-                                {/*) : (*/}
-                                {/*    ``*/}
-                                {/*)}*/}
                                 {t.select_payment}
                             </div>
                         </div>

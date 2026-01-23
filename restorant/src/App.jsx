@@ -28,28 +28,20 @@ function App() {
             <Routes>
 
                 <Route index element={<OfficialWeb/>}/>
-
                 <Route path="table/:tableId" element={<Table/>}/>
                 <Route path="order/:tableId" element={<Order/>}/>
 
                 {/*{USER}*/}
                 <Route path="/user" element={<UserRoute><UserPage/></UserRoute>}/>
-                <Route path="/user/orders" element={<UserRoute><Orders/></UserRoute>}/>
-                <Route path="/user/tables" element={<UserRoute><Tables/></UserRoute>}/>
-                <Route path="user/tables/table/:tableId" element={<UserRoute><TableForWaiter/></UserRoute>}/>
-                {/*ADMIN*/}
-                <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
-
-                <Route path="/admin/register" element={<AdminRoute><RegisterUsers /></AdminRoute>} />
-                <Route path="/admin/users" element={<AdminRoute><ListUsers /></AdminRoute>} />
-
-                <Route path="/admin/meals" element={<AdminRoute><ListMeals /></AdminRoute>} />
-                <Route path="/admin/addMeal" element={<AdminRoute><AddMealForm /></AdminRoute>} />
-                <Route path="/admin/editMeal/:mealId" element={<AdminRoute><EditMealForm /></AdminRoute>} />
-
-                <Route path="/admin/categories" element={<AdminRoute><ListCategories /></AdminRoute>} />
-                <Route path="/admin/addCategory" element={<AdminRoute><AddCategoryForm /></AdminRoute>} />
-                <Route path="/admin/editCategory/:categoryId" element={<AdminRoute><EditCategoryForm/></AdminRoute>} />
+                <Route path="user/table/:tableId" element={<UserRoute><TableForWaiter/></UserRoute>}/>
+                <Route path="/user/register" element={<AdminRoute><RegisterUsers /></AdminRoute>} />
+                <Route path="/user/users" element={<AdminRoute><ListUsers /></AdminRoute>} />
+                <Route path="/user/meals" element={<AdminRoute><ListMeals /></AdminRoute>} />
+                <Route path="/user/addMeal" element={<AdminRoute><AddMealForm /></AdminRoute>} />
+                <Route path="/user/editMeal/:mealId" element={<AdminRoute><EditMealForm /></AdminRoute>} />
+                <Route path="/user/categories" element={<AdminRoute><ListCategories /></AdminRoute>} />
+                <Route path="/user/addCategory" element={<AdminRoute><AddCategoryForm /></AdminRoute>} />
+                <Route path="/user/editCategory/:categoryId" element={<AdminRoute><EditCategoryForm/></AdminRoute>} />
 
                 <Route path="/login" element={<LoginUsers/>}/>
 

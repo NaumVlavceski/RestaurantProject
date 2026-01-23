@@ -7,6 +7,7 @@ __pycache__/
 # Virtual environment
 .venv1/
 venv1/
+.venv/
 media
 db.sqlite3
 # Django

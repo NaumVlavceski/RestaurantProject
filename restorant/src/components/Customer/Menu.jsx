@@ -311,9 +311,7 @@ const MenuBook = ({
                 )}
             </div>
 
-            {/* Категории */}
             <div className="relative px-4 mb-10">
-                {/*<h2 className="text-white text-xl md:text-2xl text-center font-bold mb-4"></h2>*/}
                 <div
                     className="flex space-x-4 py-2 justify-start lg:justify-center md:space-x-6 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
                     {categories.map(item => (
@@ -339,21 +337,9 @@ const MenuBook = ({
                 </div>
             </div>
 
-            {/* Табела со јадења */}
             <div className="relative px-4 mb-24">
                 <div className="overflow-x-auto rounded-2xl border border-gray-700/50 shadow-2xl">
                     <table className="w-full border-collapse bg-white/5 backdrop-blur-sm">
-                        {/* Table Header */}
-                        {/*<thead className="bg-gray-800/80">*/}
-                        {/*<tr>*/}
-                        {/*    <th className="py-4 px-4 text-left text-white font-bold text-lg md:text-xl w-1/5">Слика</th>*/}
-                        {/*    <th className="py-4 px-4 text-left text-white font-bold text-lg md:text-xl w-2/5">Јадење</th>*/}
-                        {/*    <th className="py-4 px-4 text-left text-white font-bold text-lg md:text-xl w-1/5">Цена</th>*/}
-                        {/*    <th className="py-4 px-4 text-left text-white font-bold text-lg md:text-xl w-1/5">Нарачка</th>*/}
-                        {/*</tr>*/}
-                        {/*</thead>*/}
-
-                        {/* Table Body */}
                         <tbody>
                         {meals.map((food, index) => {
                             const orderItem = orderByTable?.meals?.find(item => item.id === food.id);
@@ -363,17 +349,13 @@ const MenuBook = ({
                                     key={food.id}
                                     className={`border-t border-gray-700/50 transition-all duration-200 hover:bg-white/5 ${index % 2 === 0 ? 'bg-gray-900/30' : 'bg-gray-900/10'}`}
                                 >
-                                    {/* Слика */}
+
                                     <td className="py-4 px-3 align-top">
 
-                                        {/*</td>*/}
 
-                                        {/*/!* Опис на јадење *!/*/}
-                                        {/*<td className="py-4 px-4 align-top">*/}
                                         <div className="space-y-2 flex justify-between">
                                             <div>
                                                 {l==='mk' ? <h3 className="text-white text-lg md:text-xl font-bold">{food.titleMK}</h3> : <h3 className="text-white text-lg md:text-xl font-bold">{food.title}</h3>}
-                                                {/*<h4 className="text-gray-300 text-sm md:text-base italic">{food.title}</h4>*/}
                                             </div>
 
                                             <div className="relative group">
@@ -397,28 +379,15 @@ const MenuBook = ({
                                         </div>
                                         <div className="space-y-2">
                                             {l==='mk'? <p className="text-gray-200 text-sm md:text-base">{food.descriptionMK}</p> : <p className="text-gray-200 text-sm md:text-base">{food.description}</p>}
-                                            {/*<div className="h-px w-20 bg-gray-600/50"></div>*/}
-                                            {/*<p className="text-gray-300 text-sm md:text-base italic">{food.description}</p>*/}
                                         </div>
                                     </td>
 
-                                    {/* Цена */}
                                     <td className="py-4 align-top">
                                         <div className="space-y-1 justify-items-center">
 
                                             <div className="text-yellow-400 font-bold text-md md:text-2xl">
-                                                {/*{food.priceMK} ден*/}
                                                 {l==='mk'? <span>{food.priceMK}<span className="text-sm ml-1 mr-1">ден</span></span> : <span>{food.price}<span className="text-sm ml-1 mr-1">€</span></span>}
                                             </div>
-
-                                            {/*{count > 0 && (*/}
-                                            {/*    <div className="mt-2 pt-2 border-t border-gray-700/50">*/}
-                                            {/*        <div className="text-gray-300 text-sm">Вкупно:</div>*/}
-                                            {/*        <div className="text-green-400 font-bold">{(food.price * count).toFixed(2)} €</div>*/}
-                                            {/*    </div>*/}
-                                            {/*)}*/}
-                                            {/*<div className=" flex space-y-3 ">*/}
-                                                {/* Копчиња за количина */}
                                                 <div className=" space-y-2">
                                                     <button
                                                         onClick={() => onAddMeal(food.id)}
@@ -434,14 +403,6 @@ const MenuBook = ({
                                                             </svg>
                                                         </div>
                                                     </button>
-
-
-                        {/*                            <div className="min-w-12 text-center">*/}
-                        {/*/!*<span*!/*/}
-                        {/*/!*    className={`text-2xl md:text-3xl font-bold ${count > 0 ? 'text-yellow-400' : 'text-gray-400'}`}>*!/*/}
-                        {/*/!*  {count}*!/*/}
-                        {/*/!*</span>*!/*/}
-                        {/*                            </div>*/}
                                                     <button
                                                         onClick={() => onRemoveMeal(food.id)}
                                                         disabled={count === 0}
@@ -461,141 +422,17 @@ const MenuBook = ({
 
                                                 </div>
 
-                                                {/* Статус индикатор */}
-                                                {/*<div className={`px-3 py-1 rounded-full text-xs font-bold ${count === 0 ? 'bg-gray-800/50 text-gray-400' : 'bg-yellow-500/20 text-yellow-300'}`}>*/}
-                                                {/*    {count === 0 ? 'Не е додадено' : null}*/}
-                                                {/*</div>*/}
-                                                {/*{count > 0 && (*/}
-                                                {/*    <div className="mt-2 pt-2 border-t border-gray-700/50">*/}
-                                                {/*        <div className="text-gray-300 text-sm">Вкупно:</div>*/}
-                                                {/*        <div*/}
-                                                {/*            className="text-green-400 font-bold">{(food.priceMK * count)} ден.*/}
-                                                {/*        </div>*/}
-                                                {/*        <div*/}
-                                                {/*            className="text-green-400 font-bold">{(food.price * count).toFixed(2)} €*/}
-                                                {/*        </div>*/}
-                                                {/*    </div>*/}
-                                                {/*)}*/}
 
-                                                {/* Копче за брзо додавање */}
-                                                {/*<button*/}
-                                                {/*    onClick={() => {*/}
-                                                {/*        if (count === 0) {*/}
-                                                {/*            onAddMeal(food.id);*/}
-                                                {/*        }*/}
-                                                {/*    }}*/}
-                                                {/*    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${count === 0 ? 'bg-yellow-500 hover:bg-yellow-600 text-white' : 'bg-gray-700 text-gray-400 cursor-default'}`}*/}
-                                                {/*>*/}
-                                                {/*    {count === 0 ? 'Додади во нарачка' : 'Веќе додадено'}*/}
-                                                {/*</button>*/}
                                             </div>
-                                        {/*</div>*/}
                                     </td>
-
-                                    {/* Контроли за нарачка */}
-                                    {/*<td className="py-4 px-4 align-top">*/}
-                        {/*                <div className="flex flex-col items-center space-y-3">*/}
-                        {/*                    /!* Копчиња за количина *!/*/}
-                        {/*                    <div className="flex items-center space-x-3">*/}
-                        {/*                        <button*/}
-                        {/*                            onClick={() => onRemoveMeal(food.id)}*/}
-                        {/*                            disabled={count === 0}*/}
-                        {/*                            className={`flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full transition-all ${count === 0 ? 'opacity-50 cursor-not-allowed border-gray-600' : 'hover:bg-red-500/20 active:scale-95 border-red-500'}`}*/}
-                        {/*                            title="Отстрани"*/}
-                        {/*                        >*/}
-                        {/*                            <div*/}
-                        {/*                                className={`w-10 h-10 md:w-12 md:h-12 rounded-full border-2 flex items-center justify-center ${count === 0 ? 'border-gray-600' : 'border-red-500'}`}>*/}
-                        {/*                                <svg*/}
-                        {/*                                    className={`w-5 h-5 md:w-6 md:h-6 ${count === 0 ? 'text-gray-500' : 'text-red-500'}`}*/}
-                        {/*                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">*/}
-                        {/*                                    <path strokeLinecap="round" strokeLinejoin="round"*/}
-                        {/*                                          strokeWidth="3" d="M20 12H4"></path>*/}
-                        {/*                                </svg>*/}
-                        {/*                            </div>*/}
-                        {/*                        </button>*/}
-
-                        {/*                        <div className="min-w-12 text-center">*/}
-                        {/*<span*/}
-                        {/*    className={`text-2xl md:text-3xl font-bold ${count > 0 ? 'text-yellow-400' : 'text-gray-400'}`}>*/}
-                        {/*  {count}*/}
-                        {/*</span>*/}
-                        {/*                        </div>*/}
-
-                        {/*                        <button*/}
-                        {/*                            onClick={() => onAddMeal(food.id)}*/}
-                        {/*                            className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full transition-all hover:bg-green-500/20 active:scale-95"*/}
-                        {/*                            title="Додади"*/}
-                        {/*                        >*/}
-                        {/*                            <div*/}
-                        {/*                                className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-green-500 flex items-center justify-center">*/}
-                        {/*                                <svg className="w-5 h-5 md:w-6 md:h-6 text-green-500"*/}
-                        {/*                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">*/}
-                        {/*                                    <path strokeLinecap="round" strokeLinejoin="round"*/}
-                        {/*                                          strokeWidth="3" d="M12 4v16m8-8H4"></path>*/}
-                        {/*                                </svg>*/}
-                        {/*                            </div>*/}
-                        {/*                        </button>*/}
-                        {/*                    </div>*/}
-
-                        {/*                    /!* Статус индикатор *!/*/}
-                        {/*                    /!*<div className={`px-3 py-1 rounded-full text-xs font-bold ${count === 0 ? 'bg-gray-800/50 text-gray-400' : 'bg-yellow-500/20 text-yellow-300'}`}>*!/*/}
-                        {/*                    /!*    {count === 0 ? 'Не е додадено' : null}*!/*/}
-                        {/*                    /!*</div>*!/*/}
-                        {/*                    {count > 0 && (*/}
-                        {/*                        <div className="mt-2 pt-2 border-t border-gray-700/50">*/}
-                        {/*                            <div className="text-gray-300 text-sm">Вкупно:</div>*/}
-                        {/*                            <div*/}
-                        {/*                                className="text-green-400 font-bold">{(food.priceMK * count)} ден.*/}
-                        {/*                            </div>*/}
-                        {/*                            <div*/}
-                        {/*                                className="text-green-400 font-bold">{(food.price * count).toFixed(2)} €*/}
-                        {/*                            </div>*/}
-                        {/*                        </div>*/}
-                        {/*                    )}*/}
-
-                        {/*                    /!* Копче за брзо додавање *!/*/}
-                        {/*                    /!*<button*!/*/}
-                        {/*                    /!*    onClick={() => {*!/*/}
-                        {/*                    /!*        if (count === 0) {*!/*/}
-                        {/*                    /!*            onAddMeal(food.id);*!/*/}
-                        {/*                    /!*        }*!/*/}
-                        {/*                    /!*    }}*!/*/}
-                        {/*                    /!*    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${count === 0 ? 'bg-yellow-500 hover:bg-yellow-600 text-white' : 'bg-gray-700 text-gray-400 cursor-default'}`}*!/*/}
-                        {/*                    /!*>*!/*/}
-                        {/*                    /!*    {count === 0 ? 'Додади во нарачка' : 'Веќе додадено'}*!/*/}
-                        {/*                    /!*</button>*!/*/}
-                        {/*                </div>*/}
-                        {/*            </td>*/}
                                 </tr>
                             );
                         })}
                         </tbody>
                     </table>
                 </div>
-
-                {/* Информација за вкупно */}
-                {/*<div className="mt-6 flex justify-end">*/}
-                {/*    <div className="bg-black/80 backdrop-blur-lg rounded-xl px-6 py-4 shadow-xl">*/}
-                {/*        <div className="flex items-center space-x-8">*/}
-                {/*            <div className="text-center">*/}
-                {/*                <div className="text-gray-300 text-sm">Вкупно нарачки:</div>*/}
-                {/*                <div className="text-2xl font-bold text-white">*/}
-                {/*                    {orderByTable?.meals?.reduce((total, item) => total + item.count, 0) || 0}*/}
-                {/*                </div>*/}
-                {/*            </div>*/}
-                {/*            <div className="h-12 w-px bg-gray-600"></div>*/}
-                {/*            <div className="text-center">*/}
-                {/*                <div className="text-gray-300 text-sm">Вкупно цена:</div>*/}
-                {/*                <div className="text-2xl font-bold text-yellow-400">*/}
-                {/*                    {orderByTable?.meals?.reduce((total, item) => total + (item.price * item.count), 0)?.toFixed(2) || '0.00'} €*/}
-                {/*                </div>*/}
-                {/*            </div>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
             </div>
 
-            {/* Фиксно копче за нарачка */}
             <div className="fixed bottom-6 left-0 right-0 px-4 z-10">
                 <div className="max-w-6xl mx-auto flex justify-center">
                     <button

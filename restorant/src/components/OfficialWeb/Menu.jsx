@@ -39,21 +39,10 @@ const MenuBook = ({t,l,categories,meals,selectedCategory,setSelectedCategory}) =
                 </div>
             </div>
 
-            {/* Табела со јадења */}
             <div className="relative px-4 mb-24">
                 <div className="overflow-x-auto rounded-2xl border border-gray-700/50 shadow-2xl">
                     <table className="w-full border-collapse bg-white/5 backdrop-blur-sm">
-                        {/* Table Header */}
-                        {/*<thead className="bg-gray-800/80">*/}
-                        {/*<tr>*/}
-                        {/*    <th className="py-4 px-4 text-left text-white font-bold text-lg md:text-xl w-1/5">Слика</th>*/}
-                        {/*    <th className="py-4 px-4 text-left text-white font-bold text-lg md:text-xl w-2/5">Јадење</th>*/}
-                        {/*    <th className="py-4 px-4 text-left text-white font-bold text-lg md:text-xl w-1/5">Цена</th>*/}
-                        {/*    <th className="py-4 px-4 text-left text-white font-bold text-lg md:text-xl w-1/5">Нарачка</th>*/}
-                        {/*</tr>*/}
-                        {/*</thead>*/}
 
-                        {/* Table Body */}
                         <tbody>
                         {meals.map((food, index) => {
 
@@ -71,7 +60,6 @@ const MenuBook = ({t,l,categories,meals,selectedCategory,setSelectedCategory}) =
                                                 <div
                                                     className="w-24 h-24 md:w-50 md:h-50 rounded-xl overflow-hidden border-2   border-gray-600">
                                                     <img
-                                                        // src={"https://restorantproject-1.onrender.com/media/" + food.photo}
                                                         src={"https://res.cloudinary.com/dqscvd9as/image/upload/v1768314305/"+food.photo}
                                                         alt={food.title}
                                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
@@ -89,7 +77,6 @@ const MenuBook = ({t,l,categories,meals,selectedCategory,setSelectedCategory}) =
                                         <div className="space-y-1 w-10">
 
                                             <div className="text-yellow-400 font-bold text-xl md:text-2xl">
-                                                {/*{food.priceMK} ден*/}
                                                 {l==='mk'? <span>{food.priceMK} ден.</span> : <span>{food.price} €</span>}
                                             </div>
 
@@ -102,95 +89,6 @@ const MenuBook = ({t,l,categories,meals,selectedCategory,setSelectedCategory}) =
                     </table>
                 </div>
             </div>
-
-
-            {/*NEZ*/}
-            {/*<h1 className="relativ"></h1>*/}
-            {/*/!*<div*!/*/}
-            {/*/!*    className="relative py-5 flex items-center lg:justify-center justify-start space-x-8 overflow-x-auto snap-x snap-proximity  whitespace-nowrap flex-nowrap px-4">*!/*/}
-            {/*/!*    {categories.map(item => (*!/*/}
-            {/*/!*        <button key={item.id} className="justify-items-center cursor-pointer "*!/*/}
-            {/*/!*                onClick={() => setSelectedCategory(item.id)}*!/*/}
-            {/*/!*        >*!/*/}
-            {/*/!*            <img src={"http://127.0.0.1:8000/media/"+item.photo} className={"w-30 h-25"}></img>*!/*/}
-            {/*/!*            <div>{item.title}</div>*!/*/}
-            {/*/!*        </button>*!/*/}
-            {/*/!*    ))}*!/*/}
-            {/*/!*</div>*!/*/}
-            {/*<div*/}
-            {/*    className="relative py-5 flex items-center sm:justify-center justify-start space-x-8 overflow-x-auto snap-x snap-proximity  whitespace-nowrap flex-nowrap px-4">*/}
-            {/*    {categories.map(item => (*/}
-            {/*        <button key={item.id} className="justify-items-center cursor-pointer "*/}
-            {/*                onClick={() => setSelectedCategory(item.id)}*/}
-            {/*        >*/}
-            {/*            <img src={"http://127.0.0.1:8000/media/"+item.photo} className={"w-30 h-25"}></img>*/}
-            {/*            <div>{item.title}</div>*/}
-            {/*        </button>*/}
-            {/*    ))}*/}
-            {/*</div>*/}
-            {/*/!*<div className="relative grid lg:grid-cols-3 justify-items-center">*!/*/}
-            {/*/!*    {menuData[selectedCategory]?.map((food) => (*!/*/}
-            {/*/!*        <div*!/*/}
-            {/*/!*            className="bg-black/50 lg:w-96 w-80  justify-items-center p-5 rounded-2xl my-5"*!/*/}
-            {/*/!*        >*!/*/}
-            {/*/!*            <img*!/*/}
-            {/*/!*                src={food.icon}*!/*/}
-            {/*/!*                onScroll={handleScroll} style={{ overflowY: 'scroll', height: '400px' }}*!/*/}
-
-            {/*/!*                alt={food.title}*!/*/}
-            {/*/!*            />*!/*/}
-            {/*/!*            <h3 className="text-white">{food.title}</h3>*!/*/}
-            {/*/!*            <p className="text-lg text-gray-300">{food.description}</p>*!/*/}
-            {/*/!*        </div>*!/*/}
-            {/*/!*    ))}*!/*/}
-            {/*/!*</div>*!/*/}
-
-
-            {/*<table className="relative table-auto border-collapse">*/}
-            {/*    <tbody>*/}
-            {/*    {meals.map(food => (*/}
-            {/*        <tr className=" transition-colors h-25 lg:h-80">*/}
-            {/*            <td className=" justify-items-center " width={"20%"}>*/}
-            {/*                <img src={"http://127.0.0.1:8000/media/"+food.photo} alt={food.title} />*/}
-            {/*            </td>*/}
-            {/*            <td className=" px-4 py-2 lg:text-5xl text-xl font-bold  align-text-top" width={"60%"}>{food.titleMK} / {food.title}*/}
-            {/*                <div className="lg:text-2xl text-sm pt-2 font-light">*/}
-            {/*                    {food.descriptionMK}*/}
-            {/*                    <div className="border-black/50 w-full border-1"></div>*/}
-            {/*                    {food.description}*/}
-            {/*                </div>*/}
-            {/*            </td>*/}
-            {/*            <td className=" px-0 py-2 lg:text-4xl text-xl align-text-top" width={"20%"}><span className={"font-bold"}>{food.priceMK}</span> ден <div></div> <span className="font-bold">{food.price}</span> €</td>*/}
-            {/*        </tr>*/}
-            {/*    ))}*/}
-            {/*    </tbody>*/}
-            {/*</table>*/}
-
-
-
-            {/*2 NACIN*/}
-            {/*<table className="relative table-auto border-collapse">*/}
-            {/*    <tbody>*/}
-            {/*    {meals.map(food => (*/}
-            {/*        <tr className=" transition-colors h-25 lg:h-80">*/}
-            {/*            <td className=" justify-items-center " width={"20%"}>*/}
-            {/*                <img src={"http://127.0.0.1:8000/media/"+food.photo} alt={food.title} />*/}
-            {/*            </td>*/}
-            {/*            <td className=" px-4 py-2 lg:text-5xl text-xl font-bold  align-text-top" width={"60%"}>{food.titleMK}*/}
-            {/*                <div className="lg:text-2xl text-sm pt-2 font-light">*/}
-            {/*                    {food.descriptionMK}*/}
-            {/*                </div>*/}
-            {/*                <div className="border-black/50 w-full border-1"></div>*/}
-            {/*                {food.title}*/}
-            {/*                <div className="lg:text-2xl text-sm pt-2 font-light">*/}
-            {/*                    {food.description}*/}
-            {/*                </div>*/}
-            {/*            </td>*/}
-            {/*            <td className=" px-0 py-2 lg:text-4xl text-xl align-text-top" width={"20%"}><span className={"font-bold"}>{food.priceMK}</span> ден <div></div> <span className="font-bold">{food.price}</span> €</td>*/}
-            {/*        </tr>*/}
-            {/*    ))}*/}
-            {/*    </tbody>*/}
-            {/*</table>*/}
         </section>
     )
 }

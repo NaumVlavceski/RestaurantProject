@@ -63,7 +63,7 @@ const EditCategoryForm = () => {
             });
 
             if (data.success) {
-                navigate("/admin/categories")
+                navigate("/user/categories")
             }
         } catch (err) {
             console.error('Error:', err);
@@ -76,13 +76,13 @@ const EditCategoryForm = () => {
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-6 sm:py-8 px-3 sm:px-6">
             <div className="max-w-6xl mx-auto">
 
-                {/* Sticky top actions (како кај category) */}
+
                 <div className="sticky top-0 z-10 -mx-3 sm:mx-0 mb-4 sm:mb-6">
                     <div className="bg-white/80 backdrop-blur border border-gray-200 rounded-2xl px-3 sm:px-4 py-3 shadow-sm">
                         <div className="flex items-center justify-between gap-3">
                             <button
                                 type="button"
-                                onClick={() => navigate("/admin/categories")}
+                                onClick={() => navigate("/user/categories")}
                                 className="shrink-0 p-2 hover:bg-gray-100 rounded-lg transition"
                             >
                                 <ArrowLeftIcon className="h-5 w-5 text-gray-600" />
@@ -101,10 +101,10 @@ const EditCategoryForm = () => {
                     </div>
                 </div>
 
-                {/* Card */}
+
                 <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
 
-                    {/* Messages */}
+
                     <div className="px-4 sm:px-8 pt-6">
                         {message && (
                             <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-xl">
@@ -137,11 +137,9 @@ const EditCategoryForm = () => {
                         )}
                     </div>
 
-                    {/* ONE form for both sides */}
                     <form id="editMealMiniForm" onSubmit={handleSubmit} className="px-4 sm:px-8 pb-8">
                         <div className="md:flex gap-8">
 
-                            {/* LEFT */}
                             <div className="md:w-1/2 pt-2">
                                 <div className="mb-4">
                                     <h2 className="text-lg font-semibold text-gray-900">Основни информации</h2>
@@ -193,7 +191,7 @@ const EditCategoryForm = () => {
                                 </div>
                             </div>
 
-                            {/* RIGHT */}
+
                             <div className="md:w-1/2 mt-8 md:mt-0">
                                 <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                                     <div className="flex items-center justify-between mb-4">
@@ -233,7 +231,6 @@ const EditCategoryForm = () => {
                                         </div>
                                     </div>
 
-                                    {/* Bottom submit (корисно на мобилен) */}
                                     <button
                                         type="submit"
                                         disabled={loading}
