@@ -440,15 +440,15 @@ def remove_category_from_menu(request, category_id):
 
 @api_view(['POST', 'GET'])
 @parser_classes([MultiPartParser, FormParser, JSONParser])
-# @permission_classes([IsAdminUser])
+@permission_classes([IsAdminUser])
 def register(request):
     if request.method == "POST":
         data = request.data.copy()
         form = UserCreationForm(data)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_staff = True
-            user.is_superuser = True
+            # user.is_staff = True
+            # user.is_superuser = True
             user.save()
             return Response(
                 {"success": True, "message": "User created", "id": user.id},

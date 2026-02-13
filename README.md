@@ -130,3 +130,15 @@ This platform:
 ## 📄 License
 
 This project is free to use, modify, and extend.
+
+## 🖼️ Pictures
+
+![Alt text](https://res.cloudinary.com/dqscvd9as/image/upload/v1771018437/1_svwzrw.png)
+![Alt text](https://res.cloudinary.com/dqscvd9as/image/upload/v1771018436/3_bg1vcr.png)
+![Alt text](https://res.cloudinary.com/dqscvd9as/image/upload/v1771018436/2_c4m4tf.png)
+![Alt text](https://res.cloudinary.com/dqscvd9as/image/upload/v1771018437/4_phtpqp.png)
+![Alt text](https://res.cloudinary.com/dqscvd9as/image/upload/v1771018436/5_umlm3x.png)
+![Alt text](https://res.cloudinary.com/dqscvd9as/image/upload/v1771018472/7_muvrn1.png)
+![Alt text](https://res.cloudinary.com/dqscvd9as/image/upload/v1771018472/8_fm19k8.png)
+![Alt text](https://res.cloudinary.com/dqscvd9as/image/upload/v1771018437/9_qimd1s.png)
+

@@ -64,7 +64,7 @@ function Order() {
         const interval = setInterval(() => {
             const noMeals = (orderByTable?.meals?.length ?? 0) === 0;
             const notChecked = !yourOrder?.checked;
-            console.log(noMeals,notChecked)
+            // console.log(noMeals,notChecked)
             if (notChecked && noMeals) {
                 window.location.reload();
             }

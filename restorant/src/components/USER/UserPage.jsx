@@ -18,9 +18,7 @@ const UserPage = () => {
     const [user, setUser] = useState(null);
     const [admin, setAdmin] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [activeSection, setActiveSection] = useState(() => {
-        return localStorage.getItem("activeSection") || "tables";
-    });
+    const [activeSection, setActiveSection] = useState(localStorage.getItem("activeSection"));
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     useEffect(() => {
@@ -35,6 +33,8 @@ const UserPage = () => {
                     setUser(data.username);
                     if (data.is_staff) {
                         setAdmin(true);
+                    }else{
+                        setActiveSection("tables");
                     }
                 }
                 setLoading(false);
@@ -87,7 +87,7 @@ const UserPage = () => {
             name: "Админ",
             id: "admin",
             color: "text-purple-600",
-        }]:[])
+        }] : [])
 
     ]
 
