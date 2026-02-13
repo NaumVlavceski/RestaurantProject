@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="050da76c-571e-41ad-9d74-9eba2ab86a62" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend_restaurant/App/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend_restaurant/App/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restorant/.env.development" beforeDir="false" afterPath="$PROJECT_DIR$/restorant/.env.development" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restorant/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/restorant/src/components/Customer/Order.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/restorant/src/components/Customer/Order.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restorant/src/components/OfficialWeb/Hero.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/restorant/src/components/OfficialWeb/Hero.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restorant/src/components/USER/UserPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/restorant/src/components/USER/UserPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restorant/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/restorant/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,19 +38,40 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "JavaScript Debug.index.html.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Node.js.Menu.jsx.executor": "Run",
+    "Node.js.Order.jsx.executor": "Run",
+    "Node.js.main.jsx.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "git-widget-placeholder": "master",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Naum Vlavcheski/Desktop/git/RestorantProject",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="dev" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/restorant/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -69,7 +88,7 @@
       <option name="presentableId" value="Default" />
       <updated>1765799790886</updated>
       <workItem from="1765799792159" duration="21000" />
-      <workItem from="1771018293914" duration="299000" />
+      <workItem from="1771018293914" duration="1677000" />
     </task>
     <servers />
   </component>
